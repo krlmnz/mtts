@@ -9,7 +9,7 @@ const config = {
   CSV: 'https://docs.google.com/spreadsheets/d/1V-PIOfUiebIaWvQ68D39xtIEm16QKyXka5PE_WQXL2o/gviz/tq?tqx=out:csv&sheet=Sheet1',
   center: [-111.638019, 41.259263],
   zoom: 5.0,
-  title: 'Mini Takes The States 2022 - Locations',
+  title: 'Mini Takes The States',
   description: 'Replace with information about your application. Ex. You can search by address to sort the list below by distance. You can also filter the list by language support options, which days a location is open, and whether they have devices to use to complete the survey by phone or online.',
   sideBarInfo: ['line_01', 'line_02', 'line_03'],
   popupInfo: ['line_01', 'line_02', 'line_03'],
