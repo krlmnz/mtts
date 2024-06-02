@@ -4,7 +4,7 @@
 'use strict';
 
 const config = {
-  style: 'mapbox://styles/kmunoz/clww3p32f00r101qpa58dc3ai',
+  style: 'mapbox://styles/kmunoz/clwxctr2206fn01nxc126h602',
   accessToken: 'pk.eyJ1Ijoia211bm96IiwiYSI6ImNsY3A3NDloaDA2bnozcGxiN2U1Y2I2bWIifQ.WY4_mVStBm5c9CjvWsVy3w',
   CSV: 'https://docs.google.com/spreadsheets/d/1V-PIOfUiebIaWvQ68D39xtIEm16QKyXka5PE_WQXL2o/gviz/tq?tqx=out:csv&sheet=Sheet1',
   center: [-111.638019, 41.259263],
