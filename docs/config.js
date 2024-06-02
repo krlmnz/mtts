@@ -12,7 +12,7 @@ const config = {
   title: 'Mini Takes The States 2022 - Locations',
   description: 'Replace with information about your application. Ex. You can search by address to sort the list below by distance. You can also filter the list by language support options, which days a location is open, and whether they have devices to use to complete the survey by phone or online.',
   sideBarInfo: ['line_01', 'line_02', 'line_03'],
-  popupInfo: ['Name', 'Address', 'Phone'],
+  popupInfo: ['line_01', 'line_02', 'line_03'],
   filters: [
     {
       type: 'dropdown',
