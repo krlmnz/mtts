@@ -184,7 +184,8 @@ p {
     font: 400 15px/22px var(--font-family-body), 'Source Sans Pro', 'Helvetica Neue', sans-serif;
     text-align: center;
     padding: var(--space-1);
-    width: 180px;
+    padding: 16px;
+    min-width: 250px;
 }
 
 .mapboxgl-popup-close-button {
