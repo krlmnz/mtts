@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://142-urban-x.webflow.io"],
+    "method": ["GET"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 60
+  }
+]

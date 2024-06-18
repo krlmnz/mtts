@@ -1,6 +1,18 @@
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Della+Respira&family=Inter:wght@400;600;800&display=swap');
+/* Import Custom Fonts */
+@font-face {
+    font-family: 'MINISerif';
+    src: url('https://storage.googleapis.com/urban-x_mtts/MINISerif-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MINISansSerif';
+    src: url('https://storage.googleapis.com/urban-x_mtts/MINISansSerif-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /* CSS Variables */
 :root {
@@ -25,8 +37,8 @@
     --color-accent: #004d24;
     --color-background: #a8c0c2;
 
-    --font-family-body: 'Inter', sans-serif;
-    --font-family-heading: 'Inter', sans-serif;
+    --font-family-body: 'MINISansSerif', sans-serif;
+    --font-family-heading: 'MINISerif', serif;
 
     /* Type Scale */
     --font-size-root: 1rem; /* 16px */

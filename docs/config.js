@@ -6,11 +6,11 @@
 const config = {
   style: 'mapbox://styles/kmunoz/clwxctr2206fn01nxc126h602',
   accessToken: 'pk.eyJ1Ijoia211bm96IiwiYSI6ImNsY3A3NDloaDA2bnozcGxiN2U1Y2I2bWIifQ.WY4_mVStBm5c9CjvWsVy3w',
-  CSV: 'https://docs.google.com/spreadsheets/d/1V-PIOfUiebIaWvQ68D39xtIEm16QKyXka5PE_WQXL2o/gviz/tq?tqx=out:csv&sheet=Sheet1',
+  CSV: 'https://docs.google.com/spreadsheets/d/1TsvEQNo8mW4FA5sI1aTqL44EJqSY0j3ILrr7m_ke2sw/gviz/tq?tqx=out:csv&sheet=Sheet1',
   center: [-111.638019, 41.259263],
   zoom: 5.0,
-  title: 'Mini Takes The States',
-  description: 'Replace with information about your application. Ex. You can search by address to sort the list below by distance. You can also filter the list by language support options, which days a location is open, and whether they have devices to use to complete the survey by phone or online.',
+  title: 'MINI TAKES THE STATES 2024.',
+  description: 'URBAN-X by MINI is going on an epic journey from Albuqeurque, NM to Seattle, WA. Join us.',
   sideBarInfo: ['line_01', 'line_02', 'line_03'],
   popupInfo: ['line_01', 'line_02', 'line_03'],
   filters: [
@@ -506,13 +506,13 @@ description.innerText = config.description;
 
 
 const routes = [
-  './data/Day_1_ALBUQUERQUE_NM_DURANGO_CO.geojson',
-  './data/Day_2_Durango_CO_Grand_Junction_CO.geojson',
-  './data/Day_3_Grand_Junction_CO_Salt_Lake_City_UT.geojson',
-  './data/Day_5_Salt_Lake_City_Bozeman_MT.geojson',
-  './data/Day_6_Bozeman_MT_Missoula_MT.geojson',
-  './data/Day_7_Missoula_MT_Spokane_WA.geojson',
-  './data/Day_8_SPOKANE_WA_YAKIMA_WA.geojson'
+  'https://storage.googleapis.com/urban-x_mtts/Day_1_ALBUQUERQUE_NM_DURANGO_CO.geojson',
+  'https://storage.googleapis.com/urban-x_mtts/Day_2_Durango_CO_Grand_Junction_CO.geojson',
+  'https://storage.googleapis.com/urban-x_mtts/Day_3_Grand_Junction_CO_Salt_Lake_City_UT.geojson',
+  'https://storage.googleapis.com/urban-x_mtts/Day_5_Salt_Lake_City_Bozeman_MT.geojson',
+  'https://storage.googleapis.com/urban-x_mtts/Day_6_Bozeman_MT_Missoula_MT.geojson',
+  'https://storage.googleapis.com/urban-x_mtts/Day_7_Missoula_MT_Spokane_WA.geojson',
+  'https://storage.googleapis.com/urban-x_mtts/Day_8_SPOKANE_WA_YAKIMA_WA.geojson'
 ];
 
 map.on('load', () => {
