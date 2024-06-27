@@ -1,83 +1,512 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <title></title>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link href='https://api.mapbox.com/mapbox-assembly/v0.24.0/assembly.min.css' rel='stylesheet'>
-    <script src='https://api.mapbox.com/mapbox-assembly/v0.24.0/assembly.js'></script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet' />
-
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/geojson/0.5.0/geojson.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
-    <script src='https://npmcdn.com/csv2geojson@latest/csv2geojson.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
-
-
-
-    <link rel='stylesheet' href="https://storage.googleapis.com/urban-x_mtts/style.css" />
 </head>
-
 <body>
-    <div class='flex-parent viewport-full relative scroll-hidden'>
-        <div class='flex-child w-full w360-ml absolute static-ml left bottom'>
-            <div class='flex-parent flex-parent--column viewport-third bg-white'>
-                <div class='flex-child flex-child--grow'>
-                    <div id="sidebarA" class="flex-parent flex-parent--column-ml flex-parent--center-main theme py12 px12 ">
-                        <h3 id='title' class='andean-road align-left block'>
-                        </h3>
-                        <p>&nbsp;</p>
-                        <p id='description' class='txt-s py12 none block-ml'>
-                        <p id='description' class='txt-s py12 none block-ml'></p>
-                        <div class="flex-parent relative-ml absolute right top mt0-ml mt6">
-                            <button id='filterResults' class='txt-bold btn' style='display:none;'>
-                                <use xlink:href='#icon-filter' />
-                                <h6 id='button' class="inline-block-ml align-middle remove none">Show Filters</h6>
-                            </button>
+<!-- partial:index.partial.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MINI TAKES THE STATES 2024</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Import Custom Fonts */
+@font-face {
+    font-family: 'MINISerif';
+    src: url('https://storage.googleapis.com/urban-x_mtts/MINISerif-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 
-                        </div>
+@font-face {
+    font-family: 'MINISansSerif';
+    src: url('https://storage.googleapis.com/urban-x_mtts/MINISansSerif-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* CSS Variables */
+:root {
+    --space-1: 8px;
+    --space-2: 16px;
+    --space-3: 24px;
+    --space-4: 32px;
+    --space-5: 40px;
+    --space-6: 48px;
+
+    --border-width-thin: 1px;
+    --border-width-thick: 4px;
+
+    --border-style: solid;
+
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-light-grey: #d6d6d6;
+    --color-dark-grey: #2A395F;
+    --color-green: #003016;
+    --color-brown: #974819;
+    --color-accent: #004d24;
+    --color-background: #ffffff;
+
+    --font-family-body: 'MINISansSerif', sans-serif;
+    --font-family-heading: 'MINISerif', serif;
+
+    /* Type Scale */
+    --font-size-root: 1rem; /* 16px */
+    --font-size-small: calc(var(--font-size-root) / 1.2); /* 13.33px */
+    --font-size-h6: calc(var(--font-size-root) * 0.8); /* 12.8px */
+    --font-size-p: var(--font-size-root); /* 16px */
+    --font-size-h1: calc(var(--font-size-root) * 1.2 * 1.2 * 1.2); /* 27.648px */
+}
+
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: var(--font-family-body);
+        line-height: 1.5rem;
+        background-color: var(--color-background);
+        font-size: var(--font-size-root);
+      }
+      
+      h1 {
+        font-family: var(--font-family-heading);
+        font-size: 2rem;
+        margin: 0;
+      }
+
+      .logo {
+
+        padding-bottom: 1rem;
+
+      }
+
+      #main-container {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        height: 100%;
+      }
+      
+      #content-container {
+        display: grid;
+        grid-template-columns: 33.3333% 66.6666%;
+        height: 100%;
+      }
+      
+      .sidebar {
+        overflow: hidden;
+        border-right: 1px solid rgb(0 0 0 / 25%);
+        padding: 10px;
+        background-color: var(--color-white);
+      
+        max-width: 33.33%;
+  
+      }
+      
+      .map {
+        position: relative;
+      }
+      
+      .heading {
+        background-color: var(--color-background);
+        color: var(--color-black);
+        padding: var(--space-3);
+        border-bottom: 2px solid #000;
+    
+      }
+      
+      .listings {
+        overflow: auto;
+        padding-bottom: 60px;
+      }
+      
+      .item {
+        border-bottom: 1px solid #eee;
+        padding: 10px;
+      }
+      
+      .title {
+        color: var(--color-black);
+        font-weight: 700;
+      }
+      
+      .marker {
+        background-image: url('marker.svg');
+        height: 40px;
+        width: 40px;
+        cursor: pointer;
+        align-self: center;
+        background-repeat: no-repeat;
+      }
+      
+      .mapboxgl-popup {
+        padding-bottom: 50px;
+        text-align: center;
+        font-size: var(--font-size-p);
+      }
+      
+      #content-container {
+            flex-grow: 1;
+            display: flex;
+            min-height: 0;
+        }
+
+        #sidebar {
+            padding: 1rem;
+            font-size: 0.9rem;
+            overflow-y: scroll;
+            box-sizing: border-box;
+        }
+
+        #map {
+            height: 100%;
+            flex-grow: 1;
+        }
+
+        .title {
+            font-weight: 600;
+            font-size: var(--font-size-p);
+            text-decoration: none;
+        }
+
+     
+.mapboxgl-popup-close-button {
+
+    color: var(--color-black);
+    border: 0px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 24px;
+    
+}
+
+.mapboxgl-popup-close-button:hover {
+    background-color: rgb(0 0 0/5%)
+}
 
 
-                    </div>
-                    <div id="listings" class="flex-child viewport-twothirds py12 px12 listings scroll-auto"></div>
+        @media only screen and (max-width: 800px) {
+            #content-container {
+                flex-direction: column-reverse;
+            }
 
-                </div>
-            </div>
+            #map {
+                height: 60%;
+                flex-shrink: 0;
+            }
+
+            #sidebar {
+                width: 100%;
+                border-right: none;
+            }
+
+            .sidebar {
+       
+        
+        max-width: 100%;
+  
+      }
+        }
+    </style>
+  </head>
+  <body>
+    <div id="main-container">
+      <div class="heading">
+        <div class="logo">
+          
+        <img src="./mini-logo.png" alt="MINI Logo" width="74" height="32" />
         </div>
-        <div class='flex-child flex-child--grow w-auto viewport-full-ml viewport-twothirds' id='map'>
+        <h1>Mini Takes The States</h1>
+        <p>URBAN-X by MINI is going on an epic journey from Albuqeurque, NM to Seattle, WA. Join us.</p>
+      </div>
+      <div id="content-container">
+        <div id="listings" class="sidebar"></div>
+        <div id="map" class="map"></div>
+      </div>
+    </div>
+    <script>
+     mapboxgl.accessToken = 'pk.eyJ1Ijoia211bm96IiwiYSI6ImNsY3A3NDloaDA2bnozcGxiN2U1Y2I2bWIifQ.WY4_mVStBm5c9CjvWsVy3w';
 
-        </div>
+      /**
+       * Add the map to the page
+       */
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/kmunoz/clxxqp4b7001q01qj0thy9hnw',
+        center: [-112.228365, 41.998213],
+        zoom: 5,
+        scrollZoom: false
+      });
 
-        <div id='modal' class='absolute top right bottom left scroll-auto hide-visually flex-parent flex-parent--center-main mt120-ml'>
-            <div class='pt36'>
-                <div class='flex-child bg-white round relative scroll-auto'>
-                    <button id='exitButton' class='absolute top right px12 py12'>
-                        <svg class='icon link color-darken50'>
-                            <use xlink:href='#icon-close'></use>
-                        </svg>
-                    </button>
-                    <div class='px24 py24'>
-                        <form id="filters"></form>
-                        <div class='align-center py12'></div>
-                        <div class="flex-parent flex-parent--center-main">
-                            <button id="removeFilters" class="btn">Reset Filters</button>
-                        </div>
+      const stores = {
+        'type': 'FeatureCollection',
+        'features': [
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [-106.59896, 35.18873]
+            },
+            'properties': {
+              'line_01': 'Saturday, July 13',
+              'line_02': '🎈 Balloon Fiesta Park',
+              'line_03': 'Albuquerque → Durango • 4 hour 48 min / 272.8 mi',
+              'latitude': 35.18873,
+              'longitude': -106.59896
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [-107.88007, 37.27528]
+            },
+            'properties': {
+              'line_01': 'Sunday, July 14',
+              'line_02': '🏰 Fort Lewis College • Durango, CO',
+              'line_03': 'Durango → Grand Junction • 3 hour 56 min / 164.5 mi',
+              'latitude': 37.27528,
+              'longitude': -107.88007
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [-108.55065, 39.07193]
+            },
+            'properties': {
+              'line_01': 'Monday, July 15',
+              'line_02': '🏞️ Lincoln Park Complex • Grand Junction, CO',
+              'line_03': 'Grand Junction → Salt Lake City • 5 hour 38 min / 349 mi',
+              'latitude': 39.07193,
+              'longitude': -108.55065
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [-111.04293, 45.67699]
+            },
+            'properties': {
+              'line_01': 'Thursday, July 18',
+              'line_02': '🐮 Hardscrabble Ranch • Bozeman, MT',
+              'line_03': 'Bozeman → Missoula • 3 hour 52 min / 235 mi',
+              'latitude': 45.67699,
+              'longitude': -111.04293
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [-113.98218, 46.86011]
+            },
+            'properties': {
+              'line_01': 'Friday, July 19',
+              'line_02': '🐻 Washington Grizzly Stadium (U of MT) • Missoula, MT',
+              'line_03': 'Missoula → Spokane • 4 hour 40 min / 260 mi',
+              'latitude': 46.86011,
+              'longitude': -113.98218
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [-117.42605, 47.65878]
+            },
+            'properties': {
+              'line_01': 'Saturday, July 20',
+              'line_02': '🏞️ Comstock Park • Spokane, WA',
+              'line_03': 'Spokane → Yakima • 3 hour 8 min / 263 mi',
+              'latitude': 47.65878,
+              'longitude': -117.42605
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [-120.47232, 46.54566]
+            },
+            'properties': {
+              'line_01': 'Sunday, July 21',
+              'line_02': '🏞️ Fullbright Park • Union Gap, WA',
+              'line_03': 'Yakima → Seattle • 2 hr 12 min / 137 mi',
+              'latitude': 46.54566,
+              'longitude': -120.47232
+            }
+          }
+        ]
+      };
 
-                    </div>
+      /**
+       * Assign a unique id to each store. You'll use this `id`
+       * later to associate each point on the map with a listing
+       * in the sidebar.
+       */
+      stores.features.forEach((store, i) => {
+        store.properties.id = i;
+      });
 
-                </div>
-            </div>
-        </div>
+      /**
+       * Wait until the map loads to make changes to the map.
+       */
+      map.on('load', () => {
+        /**
+         * This is where your '.addLayer()' used to be, instead
+         * add only the source without styling a layer
+         */
+        map.addSource('places', {
+          'type': 'geojson',
+          'data': stores
+        });
+
+        /**
+         * Add all the things to the page:
+         * - The location listings on the side of the page
+         * - The markers onto the map
+         */
+        buildLocationList(stores);
+        addMarkers();
+      });
+
+      /**
+       * Add a marker to the map for every store listing.
+       **/
+      function addMarkers() {
+        /* For each feature in the GeoJSON object above: */
+        for (const marker of stores.features) {
+          /* Create a div element for the marker. */
+          const el = document.createElement('div');
+          /* Assign a unique `id` to the marker. */
+          el.id = `marker-${marker.properties.id}`;
+          /* Assign the `marker` class to each marker for styling. */
+          el.className = 'marker';
+
+          /**
+           * Create a marker using the div element
+           * defined above and add it to the map.
+           **/
+          new mapboxgl.Marker(el, { offset: [0, -23] })
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+
+          /**
+           * Listen to the element and when it is clicked, do three things:
+           * 1. Fly to the point
+           * 2. Close all other popups and display popup for clicked store
+           * 3. Highlight listing in sidebar (and remove highlight for all other listings)
+           **/
+          el.addEventListener('click', (e) => {
+            /* Fly to the point */
+            flyToStore(marker);
+            /* Close all other popups and display popup for clicked store */
+            createPopUp(marker);
+            /* Highlight listing in sidebar */
+            const activeItem = document.getElementsByClassName('active');
+            e.stopPropagation();
+            if (activeItem[0]) {
+              activeItem[0].classList.remove('active');
+            }
+            const listing = document.getElementById(
+              `listing-${marker.properties.id}`
+            );
+            listing.classList.add('active');
+          });
+        }
+      }
+
+      /**
+       * Add a listing for each store to the sidebar.
+       **/
+      function buildLocationList(stores) {
+        for (const store of stores.features) {
+          /* Add a new listing section to the sidebar. */
+          const listings = document.getElementById('listings');
+          const listing = listings.appendChild(document.createElement('div'));
+          /* Assign a unique `id` to the listing. */
+          listing.id = `listing-${store.properties.id}`;
+          /* Assign the `item` class to each listing for styling. */
+          listing.className = 'item';
+
+          /* Add the link to the individual listing created above. */
+          const link = listing.appendChild(document.createElement('a'));
+          link.href = '#';
+          link.className = 'title';
+          link.id = `link-${store.properties.id}`;
+          link.innerHTML = `${store.properties.line_02}`;
+
+          /* Add details to the individual listing. */
+          const details = listing.appendChild(document.createElement('div'));
+          details.innerHTML = `${store.properties.line_01}`;
+          if (store.properties.line_03) {
+            details.innerHTML += ` &middot; ${store.properties.line_03}`;
+          }
+
+          /**
+           * Listen to the element and when it is clicked, do four things:
+           * 1. Update the `currentFeature` to the store associated with the clicked link
+           * 2. Fly to the point
+           * 3. Close all other popups and display popup for clicked store
+           * 4. Highlight listing in sidebar (and remove highlight for all other listings)
+           **/
+          link.addEventListener('click', function () {
+            for (const feature of stores.features) {
+              if (this.id === `link-${feature.properties.id}`) {
+                flyToStore(feature);
+                createPopUp(feature);
+              }
+            }
+            const activeItem = document.getElementsByClassName('active');
+            if (activeItem[0]) {
+              activeItem[0].classList.remove('active');
+            }
+            this.parentNode.classList.add('active');
+          });
+        }
+      }
+
+      /**
+       * Use Mapbox GL JS's `flyTo` to move the camera smoothly
+       * a given center point.
+       **/
+      function flyToStore(currentFeature) {
+        map.flyTo({
+          center: currentFeature.geometry.coordinates,
+          zoom: 15
+        });
+      }
+
+      /**
+       * Create a Mapbox GL JS `Popup`.
+       **/
+      function createPopUp(currentFeature) {
+        const popUps = document.getElementsByClassName('mapboxgl-popup');
+        if (popUps[0]) popUps[0].remove();
+        const popup = new mapboxgl.Popup({ closeOnClick: false })
+          .setLngLat(currentFeature.geometry.coordinates)
+          .setHTML(
+            `<h3>${currentFeature.properties.line_02}</h3><h4>${currentFeature.properties.line_01}</h4>`
+          )
+          .addTo(map);
+      }
+    </script>
+  </body>
+</html>
+<!-- partial -->
+  
 </body>
-
-<script src="https://storage.googleapis.com/urban-x_mtts/config.js"></script>
-<script src="https://storage.googleapis.com/urban-x_mtts/app.js"></script>
-
+</html>
+<!-- partial -->
+  
+</body>
 </html>
