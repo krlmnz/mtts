@@ -206,7 +206,7 @@
           <img src="./mini-logo.png" alt="MINI Logo" width="74" height="32" />
         </div>
         <h1>Mini Takes The States</h1>
-        <p>URBAN-X by MINI is going on an epic journey from Albuqeurque, NM to Seattle, WA. Join us.</p>
+        <p>URBAN-X by MINI is going on an epic journey from Albuquerque, NM to Seattle, WA. Join us.</p>
       </div>
       <div id="content-container">
         <div id="listings" class="sidebar"></div>
@@ -216,12 +216,30 @@
     <script>
       mapboxgl.accessToken = 'pk.eyJ1Ijoia211bm96IiwiYSI6ImNsY3A3NDloaDA2bnozcGxiN2U1Y2I2bWIifQ.WY4_mVStBm5c9CjvWsVy3w';
 
+      // Function to set map options based on screen size
+      function getMapOptions() {
+        if (window.innerWidth <= 800) {
+          return {
+            center: [-114.020000, 35.770000],
+            zoom: 3.7
+          };
+        } else {
+          return {
+            center: [-105.228365, 41.998213],
+            zoom: 4.6
+          };
+        }
+      }
+
+      const mapOptions = getMapOptions();
+
       const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/kmunoz/clxxqp4b7001q01qj0thy9hnw',
-        center: [-112.228365, 41.998213],
-        zoom: 5,
-        scrollZoom: false
+        
+        center: mapOptions.center,
+        zoom: mapOptions.zoom,
+        scrollZoom: true
       });
 
       const stores = {
@@ -319,8 +337,8 @@
             },
             'properties': {
               'line_01': 'Monday, July 22',
-              'line_02': '🏞️ Seattle, WA → Return Home',
-              'line_03': 'See you again soon.'
+              'line_02': '🏞️ Seattle, WA',
+              'line_03': 'Seattle → Return Home'
             }
           }
         ]
